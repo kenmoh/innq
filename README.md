@@ -1,4 +1,4 @@
-# RoomService Magic
+# HSuite
 
 ## Streamline Hospitality Operations with All-in-One Management
 
