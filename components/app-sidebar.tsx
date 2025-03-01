@@ -2,17 +2,11 @@
 
 import * as React from "react"
 import {
-
-  Bug,
   Calendar,
-
   Clock,
-
   CoinsIcon,
-
   CreditCard,
   Frame,
-
   Logs,
   Map,
   Menu,
@@ -20,26 +14,21 @@ import {
   Notebook,
   PieChart,
   QrCode,
-
-  Scale,
   Settings,
-
   TriangleAlert,
-
   Users,
   Utensils,
   Warehouse,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
+
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
+
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
 

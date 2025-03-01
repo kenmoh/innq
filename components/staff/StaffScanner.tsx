@@ -1,4 +1,4 @@
-
+'use client'
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,7 +24,7 @@ export function StaffScanner({ onScan, staff }: StaffScannerProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!selectedStaff) {
       toast({
         title: "Error",
@@ -33,7 +33,7 @@ export function StaffScanner({ onScan, staff }: StaffScannerProps) {
       });
       return;
     }
-    
+
     // In a real app, we would verify the PIN against user credentials
     // For demo purposes, we're allowing any PIN
     if (pin.length < 4) {
@@ -44,7 +44,7 @@ export function StaffScanner({ onScan, staff }: StaffScannerProps) {
       });
       return;
     }
-    
+
     onScan(selectedStaff);
     setPin("");
   };
@@ -68,7 +68,7 @@ export function StaffScanner({ onScan, staff }: StaffScannerProps) {
           </SelectContent>
         </Select>
       </div>
-      
+
       <div>
         <label htmlFor="pin" className="block text-sm font-medium mb-1">
           Enter PIN
@@ -82,12 +82,12 @@ export function StaffScanner({ onScan, staff }: StaffScannerProps) {
           maxLength={6}
         />
       </div>
-      
+
       <Button type="submit" className="w-full">
         <ScanLine className="mr-2 h-4 w-4" />
         Scan Attendance
       </Button>
-      
+
       <div className="text-xs text-muted-foreground text-center mt-2">
         In a real app, this would use the device camera to scan QR codes.
         For demo purposes, we're using staff selection and PIN.

@@ -16,11 +16,7 @@ import { CalendarIcon, Calculator, Download, FileText, Search, AlertCircle, Moon
 import { Badge } from "@/components/ui/badge";
 
 import { StaffPayroll, PayrollPeriod, AttendanceRecord } from "@/types/staff";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent
-} from "@/components/ui/chart";
+
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, PieChart, Pie, Cell, LineChart, Line, Tooltip, Legend, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from "recharts";
 import { PayrollSummary } from "./staff/PayrollSummary";
 

@@ -4,14 +4,14 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Download, RefreshCw, UserCheck, FileDown, BarChart, Calendar, Clock, Clipboard, ScanLine, QrCode } from "lucide-react";
+import { Download, UserCheck, FileDown, BarChart, Calendar, Clock, Clipboard, ScanLine, QrCode } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { StaffScanner } from "@/components/staff/StaffScanner";
 import { AttendanceRecord, AttendanceAnalytics } from "@/types/staff";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { BarChart as RechartsBarChart, Bar, XAxis, YAxis, CartesianGrid, LineChart, Line, Cell, PieChart, Pie, ResponsiveContainer } from "recharts";
+import { BarChart as RechartsBarChart, Bar, XAxis, YAxis, CartesianGrid, Cell, PieChart, Pie, ResponsiveContainer } from "recharts";
 
 export default function Attendance() {
   const [qrValue, setQrValue] = useState("");

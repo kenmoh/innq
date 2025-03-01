@@ -1,8 +1,5 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Utensils, QrCode, Clock, Users, Calendar, Bug, Coins, DollarSign, Clock1 } from "lucide-react";
-import PricingSection from "@/components/PricingSection";
-import Footer from "@/components/Footer";
 import Link from "next/link";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
@@ -29,7 +26,6 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 
             </main>
 
-            {/* <Footer /> */}
         </div>
     );
 };

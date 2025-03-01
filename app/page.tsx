@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Utensils, QrCode, Clock, Users, Calendar, Bug, Coins, DollarSign, Clock1, TriangleAlert, Menu } from "lucide-react";
+import { ArrowRight, Utensils, QrCode, Clock, Users, Calendar, DollarSign, TriangleAlert, Menu } from "lucide-react";
 import PricingSection from "@/components/PricingSection";
 import Footer from "@/components/Footer";
 import Link from "next/link";
