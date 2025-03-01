@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Utensils, QrCode, Clock, Users, Calendar, Bug, Coins, DollarSign, Clock1 } from "lucide-react";
+import { ArrowRight, Utensils, QrCode, Clock, Users, Calendar, Bug, Coins, DollarSign, Clock1, TriangleAlert, Menu } from "lucide-react";
 import PricingSection from "@/components/PricingSection";
 import Footer from "@/components/Footer";
 import Link from "next/link";
@@ -35,7 +35,7 @@ const Home = () => {
       <main className="container mx-auto py-20 relative z-10">
         <div className="flex flex-col items-center text-center space-y-8">
           <h2 className="text-4xl md:text-6xl font-bold leading-tight max-w-4xl ">
-            Transform Your Hotel and Restaurant Service Experience with QR Code Ordering
+            Redefining Hospitality: Digital Ordering, Staff Management & More
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl">
             Streamline your hotel and restaurant operations with our modern QR code-based ordering system.
@@ -109,7 +109,7 @@ const features = [
   {
     title: "Issue Tracking",
     description: "Track and resolve maintenance issues and customer requests promptly. Keep your service quality high.",
-    icon: Bug,
+    icon: TriangleAlert,
   },
   {
     title: "Staff Management",
@@ -124,21 +124,21 @@ const features = [
   {
     title: "Menu Management",
     description: "Update and customize your menu offerings easily. Keep your menu fresh and exciting.",
-    icon: Utensils,
+    icon: Menu,
   },
   {
     title: "Staff Attendance",
-    description: "Update and customize your menu offerings easily. Keep your menu fresh and exciting.",
+    description: "Track employee check-ins and check-outs with our digital attendance system. Monitor work hours and generate attendance reports effortlessly.",
     icon: Clock,
   },
   {
     title: "Payroll",
-    description: "Update and customize your menu offerings easily. Keep your menu fresh and exciting.",
+    description: "Streamline payroll processing with automated calculations based on attendance data. Manage salaries, bonuses, and deductions in one place.",
     icon: DollarSign,
   },
   {
     title: "Restaurant Reservations",
-    description: "Update and customize your menu offerings easily. Keep your menu fresh and exciting.",
+    description: "Efficiently manage table bookings and optimize seating capacity. Send automated confirmations and reminders to enhance the guest experience.",
     icon: Utensils,
   },
 ];
