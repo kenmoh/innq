@@ -34,12 +34,11 @@ const Home = () => {
 
       <main className="container mx-auto py-20 relative z-10">
         <div className="flex flex-col items-center text-center space-y-8">
-          <h2 className="text-4xl md:text-6xl font-bold leading-tight max-w-4xl ">
+          <h2 className="text-4xl md:text-6xl font-bold leading-tight max-w-5xl ">
             Redefining Hospitality: Digital Ordering, Staff Management & More
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl">
-            Streamline your hotel and restaurant operations with our modern QR code-based ordering system.
-            Enhance guest satisfaction and increase efficiency.
+          <p className="text-md text-muted-foreground max-w-3xl">
+            Redefining hospitality through seamless digital solutions. From QR code ordering to comprehensive staff management, our platform enhances guest satisfaction while optimizing your entire operational workflow.
           </p>
           <Button size="lg" className="bg-purple-600 hover:bg-purple-700 shadow-lg shadow-purple-500/20" asChild>
             <Link href="/register">
@@ -138,7 +137,7 @@ const features = [
   },
   {
     title: "Restaurant Reservations",
-    description: "Efficiently manage table bookings and optimize seating capacity. Send automated confirmations and reminders to enhance the guest experience.",
+    description: "Efficiently manage table reservations and optimize seating capacity. Send automated confirmations and reminders to enhance the guest experience.",
     icon: Utensils,
   },
 ];
