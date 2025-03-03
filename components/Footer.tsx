@@ -1,8 +1,15 @@
+"use client"
 import { Mail, XIcon, Phone, MapPin, Facebook } from "lucide-react";
 import Link from "next/link";
-
+import { useEffect, useState } from "react";
 
 const Footer = () => {
+  const [year, setYear] = useState("");
+
+  useEffect(() => {
+    setYear(new Date().getFullYear().toString());
+  }, []);
+
   return (
     <footer className="bg-black/30 backdrop-blur-md border-t border-white/10">
       <div className="container mx-auto py-12 px-4">
@@ -57,7 +64,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-8 pt-8 border-t border-white/10 text-center text-sm text-gray-400">
-          <p>&copy; {new Date().getFullYear()} RoomService Magic. All rights reserved.</p>
+          <p>&copy; {year || "2025"} InnQ Magic. All rights reserved.</p>
         </div>
       </div>
     </footer>

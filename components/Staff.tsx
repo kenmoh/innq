@@ -2,16 +2,18 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { UserPlus, Building, Search } from "lucide-react";
+import { UserPlus, Building, Search, Users2, Settings2 } from "lucide-react";
 import { AddStaffDialog } from "@/components/staff/AddStaffDialog";
 import { StaffDetails } from "@/components/staff/StaffDetails";
 
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
-import { Outlet, Staff, Role } from "@/types/staff";
+import { Staff, Role, Department, Permission } from "@/types/staff";
+import { GroupPermission } from "./staff/GroupPermission";
+import Link from "next/link";
 
 // Dummy data for demonstration
-const dummyOutlets: Outlet[] = [
+const dummyDepts: Department[] = [
   { id: "1", name: "HR" },
   { id: "2", name: "Finance" },
   { id: "3", name: "Purchasing/Store" },
@@ -35,7 +37,9 @@ const dummyRoles: Role[] = [
 
 export default function StaffPage() {
   const [staff, setStaff] = React.useState<Staff[]>([]);
+  const [groupPermission, setGroupPermission] = React.useState<Permission[]>([]);
   const [isAddDialogOpen, setIsAddDialogOpen] = React.useState(false);
+  const [isAddPermDialogOpen, setIsAddPerDialogOpen] = React.useState(false);
   const [selectedStaff, setSelectedStaff] = React.useState<Staff | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -52,6 +56,17 @@ export default function StaffPage() {
       description: "Staff member added successfully",
     });
   };
+  const handleAddPermission = (newOermission: Omit<Permission, "id">) => {
+    const permission: Permission = {
+      ...newOermission,
+      id: Math.random().toString(36).substr(2, 9),
+    };
+    setGroupPermission((prev) => [...prev, permission]);
+    toast({
+      title: "Success",
+      description: "Staff member added successfully",
+    });
+  };
 
   const handleUpdateStaff = (updatedStaff: Staff) => {
     setStaff((prev) =>
@@ -59,10 +74,11 @@ export default function StaffPage() {
     );
   };
 
+
   const filteredStaff = React.useMemo(() => {
     const query = searchQuery.toLowerCase();
     return staff.filter((member) => {
-      const outletName = dummyOutlets.find((o) => o.id === member.outlet)?.name.toLowerCase() || "";
+      const outletName = dummyDepts.find((o) => o.id === member.department)?.name.toLowerCase() || "";
       return (
         member.name.toLowerCase().includes(query) ||
         outletName.includes(query)
@@ -77,10 +93,24 @@ export default function StaffPage() {
           <h1 className="text-2xl font-bold">Staff Management</h1>
           <p className="text-muted-foreground">Manage your staff members</p>
         </div>
-        <Button onClick={() => setIsAddDialogOpen(true)}>
-          <UserPlus className="mr-2 h-4 w-4" />
-          Add Staff
-        </Button>
+        <div className="flex gap-4">
+          <Button onClick={() => setIsAddDialogOpen(true)}>
+            <UserPlus className="mr-2 h-4 w-4" />
+            Add Staff
+          </Button>
+          <Button variant={'outline'} onClick={() => setIsAddPerDialogOpen(true)}>
+            <Users2 className="mr-2 h-4 w-4" />
+            Add Group Permission
+          </Button>
+
+          <Link href="/dashboard/advanced-settings">
+            <Button variant="outline">
+              <Settings2 className="mr-2 h-4 w-4" />
+              Advanced Settings
+            </Button>
+          </Link>
+
+        </div>
       </div>
 
       <div className="mb-6">
@@ -114,7 +144,7 @@ export default function StaffPage() {
             <CardContent>
               <div className="flex items-center text-sm text-muted-foreground">
                 <Building className="mr-2 h-4 w-4" />
-                {dummyOutlets.find((o) => o.id === member.outlet)?.name || "No outlet assigned"}
+                {dummyDepts.find((o) => o.id === member.department)?.name || "No outlet assigned"}
               </div>
             </CardContent>
           </Card>
@@ -125,17 +155,22 @@ export default function StaffPage() {
         isOpen={isAddDialogOpen}
         onOpenChange={setIsAddDialogOpen}
         onAddStaff={handleAddStaff}
-        outlets={dummyOutlets}
+        departments={dummyDepts}
         roles={dummyRoles}
       />
 
       <StaffDetails
         roles={dummyRoles}
         staff={selectedStaff}
-        outlets={dummyOutlets}
+        departments={dummyDepts}
         open={isDetailsOpen}
         onOpenChange={setIsDetailsOpen}
         onUpdate={handleUpdateStaff}
+      />
+      <GroupPermission
+        isOpen={isAddPermDialogOpen}
+        onOpenChange={setIsAddPerDialogOpen}
+        onAddSPermission={handleAddPermission}
       />
     </div>
   );

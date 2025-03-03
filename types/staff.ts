@@ -1,13 +1,58 @@
+export interface Permission {
+  id: string;
+  name: string;
+  permissions?: {
+    orders: {
+      create: boolean;
+      read: boolean;
+      update: boolean;
+      delete: boolean;
+    };
+    inventory: {
+      create: boolean;
+      read: boolean;
+      update: boolean;
+      delete: boolean;
+    };
+    stock: { create: boolean; read: boolean; update: boolean; delete: boolean };
+    payment: {
+      create: boolean;
+      read: boolean;
+      update: boolean;
+      delete: boolean;
+    };
+  };
+}
 export interface Staff {
   id: string;
   name: string;
   email: string;
-  role: string;
-  outlet?: string;
+  role?: string;
   phone?: string;
+  department?: string;
+  permissions?: {
+    orders: {
+      create: boolean;
+      read: boolean;
+      update: boolean;
+      delete: boolean;
+    };
+    inventory: {
+      create: boolean;
+      read: boolean;
+      update: boolean;
+      delete: boolean;
+    };
+    stock: { create: boolean; read: boolean; update: boolean; delete: boolean };
+    payment: {
+      create: boolean;
+      read: boolean;
+      update: boolean;
+      delete: boolean;
+    };
+  };
 }
-
-export interface Outlet {
+export interface Department {
   id: string;
   name: string;
 }
@@ -117,4 +162,27 @@ export interface AttendanceAnalytics {
     absent: number;
     onLeave?: number;
   }[];
+}
+
+export interface StaffGroup {
+  id: string;
+  name: string;
+  permissions: {
+    orders: {
+      create: boolean;
+      read: boolean;
+      update: boolean;
+      delete: boolean;
+    };
+    inventory: {
+      create: boolean;
+      read: boolean;
+      update: boolean;
+      delete: boolean;
+    };
+    stock: { create: boolean; read: boolean; update: boolean; delete: boolean };
+  };
+  visibleRoutes: {
+    [key: string]: boolean;
+  };
 }

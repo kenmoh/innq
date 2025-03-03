@@ -65,11 +65,11 @@ export default function Orders() {
 
     const getStatusColor = (status: string) => {
         const colors = {
-            New: "bg-blue-500",
-            "In Progress": "bg-yellow-500",
-            Ready: "bg-green-500",
-            Completed: "bg-purple-500",
-            Cancelled: "bg-red-500",
+            New: "bg-blue-900/50 rounded-full py-1",
+            "In Progress": "bg-yellow-900/50 rounded-full py-1",
+            Ready: "bg-green-900/50 rounded-full py-1",
+            Completed: "bg-purple-900/50 rounded-full py-1",
+            Cancelled: "bg-red-900/50 rounded-full py-1",
         };
         return colors[status as keyof typeof colors] || "bg-gray-500";
     };
@@ -161,7 +161,7 @@ export default function Orders() {
                             </div>
                             <div>
                                 <h3 className="font-medium">Status</h3>
-                                <Badge className={`${getStatusColor(selectedOrder?.status)} text-white`}>
+                                <Badge className={`${getStatusColor(selectedOrder?.status)} text-white `}>
                                     {selectedOrder?.status}
                                 </Badge>
                             </div>

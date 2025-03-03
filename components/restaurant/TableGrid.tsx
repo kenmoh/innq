@@ -38,7 +38,7 @@ export function TableGrid({ tables, onTableAction }: TableGridProps) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {tables.map((table) => (
-        <Card key={table.id} className="relative">
+        <Card key={table.id} className="relative shadow-none rounded-sm">
           <CardContent className="p-4">
             <div className="flex justify-between items-start mb-4">
               <h3 className="font-semibold">Table {table.id}</h3>

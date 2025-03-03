@@ -11,6 +11,7 @@ import { WaiterStats } from "@/components/restaurant/WaiterStats";
 import { Button } from "@/components/ui/button";
 import { UserPlus, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import Reservations from "./Reservations";
 
 interface Waiter {
   id: number;
@@ -221,6 +222,7 @@ export default function RestaurantManager() {
         <TabsList>
           <TabsTrigger value="staff">Staff</TabsTrigger>
           <TabsTrigger value="tables">Tables</TabsTrigger>
+          <TabsTrigger value="reservations">Reservations</TabsTrigger>
           <TabsTrigger value="orders">Orders</TabsTrigger>
           <TabsTrigger value="stats">Statistics</TabsTrigger>
         </TabsList>
@@ -236,6 +238,10 @@ export default function RestaurantManager() {
 
         <TabsContent value="tables">
           <TableGrid tables={tables} onTableAction={handleTableAction} />
+        </TabsContent>
+
+        <TabsContent value="reservations">
+          <Reservations />
         </TabsContent>
 
         <TabsContent value="orders">

@@ -1,3 +1,4 @@
+'use client'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { DollarSign, Utensils, Clock, Star } from "lucide-react";
@@ -15,7 +16,7 @@ interface WaiterStatsProps {
 export function WaiterStats({ stats }: WaiterStatsProps) {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <Card>
+      <Card className="shadow-none rounded-sm">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Orders Completed</CardTitle>
           <Utensils className="h-4 w-4 text-muted-foreground" />
@@ -26,7 +27,7 @@ export function WaiterStats({ stats }: WaiterStatsProps) {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="shadow-none rounded-sm">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Sales</CardTitle>
           <DollarSign className="h-4 w-4 text-muted-foreground" />
@@ -36,7 +37,7 @@ export function WaiterStats({ stats }: WaiterStatsProps) {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="shadow-none rounded-sm">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Avg. Service Time</CardTitle>
           <Clock className="h-4 w-4 text-muted-foreground" />
@@ -46,7 +47,7 @@ export function WaiterStats({ stats }: WaiterStatsProps) {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="shadow-none rounded-sm">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Customer Rating</CardTitle>
           <Star className="h-4 w-4 text-muted-foreground" />
@@ -57,11 +58,10 @@ export function WaiterStats({ stats }: WaiterStatsProps) {
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
                 key={i}
-                className={`h-4 w-4 ${
-                  i < stats.customerRating
-                    ? "text-yellow-400 fill-yellow-400"
-                    : "text-gray-300"
-                }`}
+                className={`h-4 w-4 ${i < stats.customerRating
+                  ? "text-yellow-400 fill-yellow-400"
+                  : "text-gray-300"
+                  }`}
               />
             ))}
           </div>

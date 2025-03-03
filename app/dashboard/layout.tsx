@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar"
+import Logout from "@/components/Logout"
 import { ModeToggle } from "@/components/Toggle"
 
 import {
@@ -6,6 +7,7 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
+
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -17,7 +19,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                         <div className="flex items-center gap-2 px-4 ">
                             <SidebarTrigger className="-ml-1 " />
                         </div>
-                        <ModeToggle />
+                        <div className="space-x-5">
+                            <ModeToggle />
+                            <Logout />
+
+                        </div>
                     </header>
 
                     {children}

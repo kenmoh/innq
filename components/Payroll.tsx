@@ -795,6 +795,7 @@ export default function Payroll() {
                         <div className="flex items-center space-x-2">
                           <Input
                             type="number"
+                            disabled
                             value={staff.rate}
                             onChange={(e) => {
                               const value = parseFloat(e.target.value);
@@ -814,6 +815,7 @@ export default function Payroll() {
                             <div className="flex items-center space-x-2">
                               <Input
                                 type="number"
+                                disabled
                                 value={staff.overtimeRate || 0}
                                 onChange={(e) => {
                                   const value = parseFloat(e.target.value);
@@ -831,6 +833,7 @@ export default function Payroll() {
                             <div className="flex items-center space-x-2">
                               <Input
                                 type="number"
+                                disabled
                                 value={staff.nightShiftAllowance || 0}
                                 onChange={(e) => {
                                   const value = parseFloat(e.target.value);
@@ -861,23 +864,23 @@ export default function Payroll() {
                       <TableCell>
                         {staff.attendanceData && (
                           <div className="flex flex-wrap gap-1">
-                            <Badge variant="outline" className="bg-green-100 text-green-800">
+                            <Badge className="bg-green-900/20 rounded-full py-1 text-green-600">
                               {staff.attendanceData.present} present
                             </Badge>
                             {staff.attendanceData.late > 0 && (
-                              <Badge variant="outline" className="bg-yellow-100 text-yellow-800">
+                              <Badge className="bg-yellow-900/20 rounded-full text-yellow-600">
                                 {staff.attendanceData.late} late
                               </Badge>
                             )}
                             {staff.attendanceData.absent > 0 && (
-                              <Badge variant="outline" className="bg-red-100 text-red-800">
+                              <Badge className="bg-red-900/20 rounded-full text-red-600">
                                 {staff.attendanceData.absent} absent
                               </Badge>
                             )}
                           </div>
                         )}
                         {staff.latePenalty ? (
-                          <div className="mt-1 text-xs text-red-600">
+                          <div className="mt-1 text-xs text-red-300">
                             ${staff.latePenalty} late penalty
                           </div>
                         ) : null}
@@ -1222,22 +1225,22 @@ export default function Payroll() {
                   <div className="space-y-2">
                     <Label>Report Details</Label>
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant="outline" className="cursor-pointer bg-teal-600">
+                      <Badge variant="outline" className="cursor-pointer bg-teal-600/20 py-1 rounded-full">
                         ✓ Staff Details
                       </Badge>
-                      <Badge variant="outline" className="cursor-pointer bg-teal-600">
+                      <Badge variant="outline" className="cursor-pointer bg-teal-600/20 py-1 rounded-full">
                         ✓ Attendance
                       </Badge>
-                      <Badge variant="outline" className="cursor-pointer bg-teal-600">
+                      <Badge variant="outline" className="cursor-pointer bg-teal-600/20 py-1 rounded-full">
                         ✓ Payment Breakdown
                       </Badge>
-                      <Badge variant="outline" className="cursor-pointer bg-teal-600">
+                      <Badge variant="outline" className="cursor-pointer bg-teal-600/20 py-1 rounded-full">
                         ✓ Overtime
                       </Badge>
-                      <Badge variant="outline" className="cursor-pointer bg-teal-600">
+                      <Badge variant="outline" className="cursor-pointer bg-teal-600/20 py-1 rounded-full">
                         ✓ Night Shifts
                       </Badge>
-                      <Badge variant="outline" className="cursor-pointer bg-teal-600">
+                      <Badge variant="outline" className="cursor-pointer bg-teal-600/20 py-1 rounded-full">
                         ✓ Summary
                       </Badge>
                     </div>

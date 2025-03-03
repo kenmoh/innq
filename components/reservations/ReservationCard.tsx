@@ -21,7 +21,7 @@ interface ReservationCardProps {
 
 export function ReservationCard({ reservation, onUpdateStatus }: ReservationCardProps) {
   return (
-    <Card className="shadow-none rounded-md border-[0.25px]">
+    <Card className="shadow-none rounded-sm border-[0.25px]">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-base">{reservation.customerName}</CardTitle>
@@ -44,19 +44,19 @@ export function ReservationCard({ reservation, onUpdateStatus }: ReservationCard
         <div className="grid grid-cols-4 gap-4">
           <div>
             <p className="text-sm text-muted-foreground">Date</p>
-            <p>{reservation.date}</p>
+            <p className="text-sm">{reservation.date}</p>
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Time</p>
-            <p>{reservation.time}</p>
+            <p className="text-sm">{reservation.time}</p>
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Adults</p>
-            <p>{reservation.guests}</p>
+            <p className="text-sm">{reservation.guests}</p>
           </div>
           <div>
             <p className="text-sm text-muted-foreground">Children</p>
-            <p>{reservation.children}</p>
+            <p className="text-sm">{reservation.children}</p>
           </div>
         </div>
         {reservation.status === "pending" && (

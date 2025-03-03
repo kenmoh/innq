@@ -1,7 +1,9 @@
+'use client'
 import React from "react";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import Link from "next/link";
 
 const PricingSection = () => {
   const plans = [
@@ -21,7 +23,7 @@ const PricingSection = () => {
     },
     {
       name: "Pro",
-      price: "$699",
+      price: "$799",
       description: "Ideal for growing businesses",
       features: [
         "Unlimited QR codes",
@@ -73,8 +75,8 @@ const PricingSection = () => {
                 } bg-gradient-to-b ${plan.gradient}`}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 ">
+                  <span className="bg-purple-600 text-white px-12 py-5 rounded-full text-sm font-bold">
                     Most Popular
                   </span>
                 </div>
@@ -108,8 +110,11 @@ const PricingSection = () => {
                   variant={plan.buttonVariant}
                   className="w-full"
                   size="lg"
+                  asChild
                 >
-                  Get Started
+                  <Link href={'/auth/register'}>
+                    Get Started
+                  </Link>
                 </Button>
               </div>
             </Card>

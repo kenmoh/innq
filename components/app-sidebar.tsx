@@ -7,6 +7,7 @@ import {
   CoinsIcon,
   CreditCard,
   Frame,
+  Home,
   Logs,
   Map,
   Menu,
@@ -40,16 +41,18 @@ const data = {
     avatar: "/avatars/shadcn.jpg",
   },
 
+
+
   navMain: [
-    { title: 'Overview', url: '/dashboard', icon: PieChart },
+    { title: 'Overview', url: '/dashboard', icon: Home },
     { title: 'Staff', url: '/dashboard/staff', icon: Users },
+    { title: 'Staff Schedules', url: '/dashboard/rota', icon: Calendar },
     { title: 'Attendance', url: '/dashboard/attendance', icon: Clock },
     { title: 'Payroll', url: '/dashboard/payroll', icon: CoinsIcon },
     { title: 'Menu Items', url: '/dashboard/menu-items', icon: Menu },
     { title: 'Orders', url: '/dashboard/orders', icon: Logs },
     { title: 'QRCodes', url: '/dashboard/qrcodes', icon: QrCode },
     { title: 'Payment', url: '/dashboard/payments', icon: CreditCard },
-    { title: 'Reservations', url: '/dashboard/reservation', icon: Notebook },
     { title: 'Restaurant Manager', url: '/dashboard/restaurant-manager', icon: Utensils },
     { title: 'Inventory', url: '/dashboard/inventory', icon: Warehouse },
     { title: 'Event', url: '/dashboard/event', icon: Calendar },

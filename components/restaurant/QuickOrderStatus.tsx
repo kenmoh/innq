@@ -50,7 +50,7 @@ export function QuickOrderStatus({ orders, onStatusUpdate }: QuickOrderStatusPro
   };
 
   return (
-    <Card className="border-none">
+    <Card className="border-none shadow-none">
       <CardHeader className=" px-0">
         <CardTitle >Active Orders</CardTitle>
       </CardHeader>
