@@ -1,5 +1,5 @@
 'use client'
-import * as React from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -15,6 +15,9 @@ import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Form, FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 interface AddStaffDialogProps {
     isOpen: boolean;
@@ -23,13 +26,18 @@ interface AddStaffDialogProps {
 
 }
 
-const resources = [
-    { id: "orders", name: "Orders" },
-    { id: "inventory", name: "Inventory" },
-    { id: "stock", name: "Stock" },
-    { id: "payment", name: "Payment" },
-];
+const formSchema = z.object({
+    name: z.string().min(1, "Name is required"),
+    permissions: z.array(
+        z.object({
+            resource: z.string(),
+            actions: z.array(z.string())
+        })
+    )
+})
 
+const resources = ["Orders", "Inventory", "Stock", "Payment"]
+const actions = ["CREATE", "READ", "UPDATE", "DELETE"]
 
 export function GroupPermission({
     isOpen,
@@ -37,53 +45,23 @@ export function GroupPermission({
     onAddSPermission,
 
 }: AddStaffDialogProps) {
-    const [newPsermission, setNewPsermission] = React.useState({
-        name: "",
 
-        permissions: {
-            orders: { create: false, read: false, update: false, delete: false },
-            inventory: { create: false, read: false, update: false, delete: false },
-            stock: { create: false, read: false, update: false, delete: false },
-            payment: { create: false, read: false, update: false, delete: false },
-        },
-    });
     const { toast } = useToast();
 
-    const handleAddStaff = () => {
-        if (!newPsermission.name) {
-            toast({
-                title: "Error",
-                description: "Please fill in all required fields",
-                variant: "destructive",
-            });
-            return;
-        }
 
-        onAddSPermission(newPsermission);
-        setNewPsermission({
+
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
             name: "",
-            permissions: {
-                orders: { create: false, read: false, update: false, delete: false },
-                inventory: { create: false, read: false, update: false, delete: false },
-                stock: { create: false, read: false, update: false, delete: false },
-                payment: { create: false, read: false, update: false, delete: false },
-            },
-        });
-        onOpenChange(false);
-    };
-
-    const handlePermissionChange = (resource: string, action: string, checked: boolean) => {
-        setNewPsermission({
-            ...newPsermission,
-            permissions: {
-                ...newPsermission.permissions,
-                [resource]: {
-                    ...newPsermission.permissions[resource as keyof typeof newPsermission.permissions],
-                    [action]: checked,
-                },
-            },
-        });
-    };
+            permissions: resources.map(resource => ({
+                resource,
+                actions: []
+            }))
+        }
+    })
 
     return (
         <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -94,82 +72,73 @@ export function GroupPermission({
                         Fill in the details to add a new resource permissions.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="space-y-4 py-2">
-                    <div className="space-y-2">
-                        <Input
-                            id="name"
-                            placeholder="Name"
-                            value={newPsermission.name}
-                            onChange={(e) => setNewPsermission({ ...newPsermission, name: e.target.value })}
+                <Form {...form}>
+                    <form onSubmit={() => console.log('first')} className="space-y-6">
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Name</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Name" {...field} className="bg-slate-950 border-slate-800" />
+                                    </FormControl>
+                                </FormItem>
+                            )}
                         />
-                    </div>
-                    <div className="space-y-3 pt-2">
-                        <Label>Resource Permissions</Label>
 
-                        {resources.map((resource) => (
-                            <div key={resource.id} className="border rounded-md p-3">
-                                <h4 className="font-medium mb-2">{resource.name}</h4>
-                                <div className="grid grid-cols-4 gap-2">
-                                    <div className="flex items-center space-x-2">
-                                        <Checkbox
-                                            className="accent-pink-700 rounded-full border-pink-700 w-6 h-6"
-                                            id={`${resource.id}-create`}
-                                            checked={newPsermission.permissions[resource.id as keyof typeof newPsermission.permissions].create}
-                                            onCheckedChange={(checked) =>
-                                                handlePermissionChange(resource.id, 'create', checked as boolean)
-                                            }
-                                        />
-                                        <Label htmlFor={`${resource.id}-create`} className="text-sm">CREATE</Label>
-                                    </div>
+                        <div className="space-y-4">
+                            <h3 className="text-sm font-medium">Resource Permissions</h3>
 
-                                    <div className="flex items-center space-x-2">
-                                        <Checkbox
-                                            className="accent-pink-700 rounded-full border-pink-700 w-6 h-6"
-                                            id={`${resource.id}-read`}
-                                            checked={newPsermission.permissions[resource.id as keyof typeof newPsermission.permissions].read}
-                                            onCheckedChange={(checked) =>
-                                                handlePermissionChange(resource.id, 'read', checked as boolean)
-                                            }
-                                        />
-                                        <Label htmlFor={`${resource.id}-read`} className="text-sm">READ</Label>
-                                    </div>
-
-                                    <div className="flex items-center space-x-2">
-                                        <Checkbox
-                                            className="accent-black rounded-full border-pink-700 w-6 h-6"
-                                            id={`${resource.id}-update`}
-                                            checked={newPsermission.permissions[resource.id as keyof typeof newPsermission.permissions].update}
-                                            onCheckedChange={(checked) =>
-                                                handlePermissionChange(resource.id, 'update', checked as boolean)
-                                            }
-                                        />
-                                        <Label htmlFor={`${resource.id}-update`} className="text-sm">UPDATE</Label>
-                                    </div>
-
-                                    <div className="flex items-center space-x-2">
-                                        <Checkbox
-                                            className="accent-pink-700 rounded-full border-pink-700 w-6 h-6"
-                                            id={`${resource.id}-delete`}
-                                            checked={newPsermission.permissions[resource.id as keyof typeof newPsermission.permissions].delete}
-                                            onCheckedChange={(checked) =>
-                                                handlePermissionChange(resource.id, 'delete', checked as boolean)
-                                            }
-                                        />
-                                        <Label htmlFor={`${resource.id}-delete`} className="text-sm">DELETE</Label>
+                            {resources.map((resource, resourceIndex) => (
+                                <div key={resource} className="p-4 bg-slate-950 rounded-lg border border-slate-800">
+                                    <h4 className="mb-3">{resource}</h4>
+                                    <div className="flex gap-4 justify-between">
+                                        {actions.map(action => (
+                                            <FormField
+                                                key={`${resource}-${action}`}
+                                                control={form.control}
+                                                name={`permissions.${resourceIndex}.actions`}
+                                                render={({ field }) => (
+                                                    <FormItem className="flex items-center space-x-2">
+                                                        <FormControl>
+                                                            <Checkbox
+                                                                checked={field.value.includes(action)}
+                                                                onCheckedChange={(checked) => {
+                                                                    if (checked) {
+                                                                        field.onChange([...field.value, action])
+                                                                    } else {
+                                                                        field.onChange(field.value.filter(a => a !== action))
+                                                                    }
+                                                                }}
+                                                            />
+                                                        </FormControl>
+                                                        <FormLabel className="text-sm font-normal">{action}</FormLabel>
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        ))}
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
 
-                    <Button onClick={handleAddStaff} className="w-full mt-4">
-                        Add Permissions
-                    </Button>
-                </div>
+                        <Button
+                            type="submit"
+                            className="w-full bg-blue-600 hover:bg-blue-700"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? "Processing..." : "Add Permissions"}
+                        </Button>
+                    </form>
+                </Form>
+
             </DialogContent>
         </Dialog>
     );
 }
+
+
 
 
 

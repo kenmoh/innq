@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "InnQ",
+  title: "MOHospitality",
   description: "Hotel and Restaurant QRCode ordering, staff management",
 };
 

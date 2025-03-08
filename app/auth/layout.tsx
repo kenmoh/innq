@@ -8,8 +8,8 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 
 
             <header className="glass-card p-6 flex justify-between items-center backdrop-blur-xl relative z-10">
-                <Link href='/' className="text-2xl font-semibold">
-                    InnQ
+                <Link href='/' className="text-4xl font-semibold">
+                    MOHospitality
                 </Link>
                 <div className="flex gap-4">
                     <Button variant="ghost" asChild>

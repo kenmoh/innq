@@ -19,8 +19,8 @@ const Home = () => {
       </div>
 
       <header className="glass-card p-6 flex justify-between items-center backdrop-blur-xl bg-black/10 relative z-10">
-        <Link href='/' className="text-2xl font-semibold text-white">
-          InnQ
+        <Link href='/' className="text-4xl font-semibold text-white">
+          MOHospitality
         </Link>
         <div className="flex gap-4">
           <Button variant="ghost" asChild className="text-white">

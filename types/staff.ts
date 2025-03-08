@@ -52,10 +52,6 @@ export interface Staff {
     };
   };
 }
-export interface Department {
-  id: string;
-  name: string;
-}
 export interface Role {
   id: string;
   name: string;
@@ -186,3 +182,48 @@ export interface StaffGroup {
     [key: string]: boolean;
   };
 }
+
+type User = {
+  id: string;
+  email: string;
+  phone: string;
+  user_type: string;
+  permission_name: string;
+  subscription_type: string;
+  company_name: string;
+  full_name: string;
+};
+
+export type UserType = {
+  user: User;
+};
+
+export type CreateUserType = {
+  name: string;
+};
+
+export type CreateUserTypeResponse = {
+  name: string;
+  id: number;
+  company_id: string;
+};
+
+export type UserRoleResponse = {
+  roles: CreateUserTypeResponse;
+  error: string | null;
+};
+
+export type Roletype = {
+  id: number;
+  name: string;
+  company_id: string;
+};
+
+export type Department = {
+  id: string;
+  name: string;
+};
+export type DepartmentResponse = {
+  departments: Department;
+  error: string | null;
+};

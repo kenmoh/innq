@@ -9,10 +9,13 @@ import { StaffGroup } from "@/types/staff";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
-import { Search } from "lucide-react";
+import { Search, Edit, Key, ArrowLeft } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { useRouter } from "next/navigation";
 
-// Dummy sidebar routes
+;
+
 const sidebarRoutes = [
     { id: "overview", name: "Overview" },
     { id: "qrCodes", name: "QR Codes" },
@@ -33,7 +36,6 @@ const sidebarRoutes = [
     { id: "settings", name: "Settings" },
 ];
 
-// Generate more mock groups for testing
 const generateMockGroups = (count: number): StaffGroup[] => {
     const baseGroups = [
         {
@@ -134,10 +136,16 @@ const generateMockGroups = (count: number): StaffGroup[] => {
 };
 
 export default function AdvancedSettings() {
+    const router = useRouter()
     const mockGroups = generateMockGroups(20);
     const [groups, setGroups] = React.useState<StaffGroup[]>(mockGroups);
     const [activeGroup, setActiveGroup] = React.useState<string | null>(mockGroups[0].id);
     const [searchQuery, setSearchQuery] = React.useState("");
+    const [showPermissionsSheet, setShowPermissionsSheet] = React.useState(false);
+    const [editingPermissions, setEditingPermissions] = React.useState<{
+        resourceName: string;
+        permissions: { create: boolean; read: boolean; update: boolean; delete: boolean };
+    } | null>(null);
     const { toast } = useToast();
 
     const handleRouteToggle = (groupId: string, routeId: string, checked: boolean) => {
@@ -157,11 +165,62 @@ export default function AdvancedSettings() {
     };
 
     const handleSaveChanges = () => {
-        // In a real app, this would save to the backend
         toast({
             title: "Success",
             description: "Group permissions have been updated",
         });
+    };
+
+    const handlePermissionChange = (permissionType: 'create' | 'read' | 'update' | 'delete', checked: boolean) => {
+        if (!editingPermissions) return;
+
+        setEditingPermissions({
+            ...editingPermissions,
+            permissions: {
+                ...editingPermissions.permissions,
+                [permissionType]: checked
+            }
+        });
+    };
+
+    const savePermissionChanges = () => {
+        if (!editingPermissions || !activeGroup) return;
+
+        setGroups(prev =>
+            prev.map(group =>
+                group.id === activeGroup
+                    ? {
+                        ...group,
+                        permissions: {
+                            ...group.permissions,
+                            [editingPermissions.resourceName]: editingPermissions.permissions
+                        }
+                    }
+                    : group
+            )
+        );
+
+        setShowPermissionsSheet(false);
+        setEditingPermissions(null);
+
+        toast({
+            title: "Permission Updated",
+            description: `Updated ${editingPermissions.resourceName} permissions for the selected group.`,
+        });
+    };
+
+    const openPermissionsSheet = (resourceName: string) => {
+        const selectedGroup = groups.find(g => g.id === activeGroup);
+        if (!selectedGroup) return;
+
+        setEditingPermissions({
+            resourceName,
+            permissions: selectedGroup.permissions[resourceName as keyof typeof selectedGroup.permissions] || {
+                create: false, read: false, update: false, delete: false
+            }
+        });
+
+        setShowPermissionsSheet(true);
     };
 
     const filteredGroups = React.useMemo(() => {
@@ -181,14 +240,15 @@ export default function AdvancedSettings() {
         <div className="p-6">
             <div className="flex items-center justify-between mb-6">
                 <div>
+                    <Button onClick={() => router.back()} variant={'link'} className="mb-5"> <ArrowLeft /> Back</Button>
                     <h1 className="text-2xl font-bold">Advanced Settings</h1>
                     <p className="text-muted-foreground">Configure staff groups and permissions</p>
                 </div>
-                <Button className="bg-pink-600 hover:bg-pink-500" onClick={handleSaveChanges}>Save Changes</Button>
+                <Button onClick={handleSaveChanges}>Save Changes</Button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="md:col-span-1 shadow-none rounded-sm">
+                <Card className="md:col-span-1 rounded-sm">
                     <CardHeader>
                         <CardTitle>Staff Groups</CardTitle>
                         <div className="mt-2">
@@ -222,7 +282,7 @@ export default function AdvancedSettings() {
                 </Card>
 
                 {selectedGroup && (
-                    <Card className="md:col-span-2 shadow-none rounded-sm">
+                    <Card className="md:col-span-2 rounded-sm">
                         <CardHeader>
                             <CardTitle>{selectedGroup.name} - Visible Dashboard Items</CardTitle>
                         </CardHeader>
@@ -257,6 +317,128 @@ export default function AdvancedSettings() {
                     </Card>
                 )}
             </div>
+
+            {selectedGroup && (
+                <Card className="mt-6 rounded-sm">
+                    <CardHeader>
+                        <CardTitle>Resource Permissions</CardTitle>
+                        <p className="text-sm text-muted-foreground">Click on a resource to edit its permissions</p>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {Object.entries(selectedGroup.permissions).map(([resource, permissions]) => (
+                                <Card key={resource} className="cursor-pointer hover:bg-accent/5 rounded-sm" onClick={() => openPermissionsSheet(resource)}>
+                                    <CardHeader className="pb-2">
+                                        <div className="flex items-center justify-between">
+                                            <CardTitle className="text-lg capitalize">{resource}</CardTitle>
+                                            <Edit className="h-4 w-4 text-muted-foreground" />
+                                        </div>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="grid grid-cols-2 gap-2 text-sm">
+                                            <div className="flex items-center space-x-2">
+                                                <div className={`h-2 w-2 rounded-full ${permissions.create ? 'bg-green-500' : 'bg-gray-300'}`} />
+                                                <span>Create</span>
+                                            </div>
+                                            <div className="flex items-center space-x-2">
+                                                <div className={`h-2 w-2 rounded-full ${permissions.read ? 'bg-green-500' : 'bg-gray-300'}`} />
+                                                <span>Read</span>
+                                            </div>
+                                            <div className="flex items-center space-x-2">
+                                                <div className={`h-2 w-2 rounded-full ${permissions.update ? 'bg-green-500' : 'bg-gray-300'}`} />
+                                                <span>Update</span>
+                                            </div>
+                                            <div className="flex items-center space-x-2">
+                                                <div className={`h-2 w-2 rounded-full ${permissions.delete ? 'bg-green-500' : 'bg-gray-300'}`} />
+                                                <span>Delete</span>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            ))}
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
+
+            <Sheet open={showPermissionsSheet} onOpenChange={setShowPermissionsSheet}>
+                <SheetContent className="w-[400px] sm:w-[540px]">
+                    <SheetHeader>
+                        <SheetTitle className="flex items-center gap-2">
+                            <Key className="h-5 w-5" />
+                            {editingPermissions && (
+                                <span className="capitalize">{editingPermissions.resourceName} Permissions</span>
+                            )}
+                        </SheetTitle>
+                        <SheetDescription>
+                            Edit permissions for this resource. Changes will be applied when you save.
+                        </SheetDescription>
+                    </SheetHeader>
+
+                    {editingPermissions && (
+                        <div className="mt-6 space-y-6">
+                            <div className="space-y-4">
+                                <div className="flex items-start space-x-3 p-3 border rounded-md">
+                                    <Checkbox
+                                        id="create-permission"
+                                        checked={editingPermissions.permissions.create}
+                                        onCheckedChange={(checked) => handlePermissionChange('create', checked as boolean)}
+                                    />
+                                    <div className="space-y-1">
+                                        <Label htmlFor="create-permission" className="font-medium">Create</Label>
+                                        <p className="text-sm text-muted-foreground">Allow users to create new items</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start space-x-3 p-3 border rounded-md">
+                                    <Checkbox
+                                        id="read-permission"
+                                        checked={editingPermissions.permissions.read}
+                                        onCheckedChange={(checked) => handlePermissionChange('read', checked as boolean)}
+                                    />
+                                    <div className="space-y-1">
+                                        <Label htmlFor="read-permission" className="font-medium">Read</Label>
+                                        <p className="text-sm text-muted-foreground">Allow users to view items</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start space-x-3 p-3 border rounded-md">
+                                    <Checkbox
+                                        id="update-permission"
+                                        checked={editingPermissions.permissions.update}
+                                        onCheckedChange={(checked) => handlePermissionChange('update', checked as boolean)}
+                                    />
+                                    <div className="space-y-1">
+                                        <Label htmlFor="update-permission" className="font-medium">Update</Label>
+                                        <p className="text-sm text-muted-foreground">Allow users to modify existing items</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-start space-x-3 p-3 border rounded-md">
+                                    <Checkbox
+                                        id="delete-permission"
+                                        checked={editingPermissions.permissions.delete}
+                                        onCheckedChange={(checked) => handlePermissionChange('delete', checked as boolean)}
+                                    />
+                                    <div className="space-y-1">
+                                        <Label htmlFor="delete-permission" className="font-medium">Delete</Label>
+                                        <p className="text-sm text-muted-foreground">Allow users to remove items</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex justify-end gap-2">
+                                <Button variant="outline" onClick={() => setShowPermissionsSheet(false)}>
+                                    Cancel
+                                </Button>
+                                <Button onClick={savePermissionChanges}>
+                                    Save Changes
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+                </SheetContent>
+            </Sheet>
         </div>
     );
 }

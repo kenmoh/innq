@@ -8,25 +8,27 @@ import { StaffDetails } from "@/components/staff/StaffDetails";
 
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
-import { Staff, Role, Department, Permission } from "@/types/staff";
+import { Staff, Role, Department, Permission, Roletype } from "@/types/staff";
 import { GroupPermission } from "./staff/GroupPermission";
 import Link from "next/link";
+import { AddDepartmentDialog } from "./staff/AddDepartment";
+import { AddStaffRoletDialog } from "./staff/AddStaffRole";
 
 // Dummy data for demonstration
-const dummyDepts: Department[] = [
-  { id: "1", name: "HR" },
-  { id: "2", name: "Finance" },
-  { id: "3", name: "Purchasing/Store" },
-  { id: "4", name: "Maintenance" },
-  { id: "5", name: "Management" },
-  { id: "6", name: "Food & Beverages" },
-  { id: "7", name: "Laundry" },
-  { id: "8", name: "Kitchen" },
-  { id: "9", name: "Front Desk" },
-  { id: "10", name: "Sales" },
-  { id: "11", name: "Reservations" },
-  { id: "12", name: "Security" },
-];
+// const dummyDepts: Department[] = [
+//   { id: "1", name: "HR" },
+//   { id: "2", name: "Finance" },
+//   { id: "3", name: "Purchasing/Store" },
+//   { id: "4", name: "Maintenance" },
+//   { id: "5", name: "Management" },
+//   { id: "6", name: "Food & Beverages" },
+//   { id: "7", name: "Laundry" },
+//   { id: "8", name: "Kitchen" },
+//   { id: "9", name: "Front Desk" },
+//   { id: "10", name: "Sales" },
+//   { id: "11", name: "Reservations" },
+//   { id: "12", name: "Security" },
+// ];
 const dummyRoles: Role[] = [
   { id: "5", name: "none" },
   { id: "1", name: "Manager" },
@@ -35,10 +37,12 @@ const dummyRoles: Role[] = [
   { id: "4", name: "Chef" },
 ];
 
-export default function StaffPage() {
+export default function StaffPage({ roles, departments }: { roles: Roletype[], departments: Department[] }) {
   const [staff, setStaff] = React.useState<Staff[]>([]);
   const [groupPermission, setGroupPermission] = React.useState<Permission[]>([]);
   const [isAddDialogOpen, setIsAddDialogOpen] = React.useState(false);
+  const [isAddRoleDialogOpen, setIsAddRoleDialogOpen] = React.useState(false);
+  const [isAddDepartmentDialogOpen, setIsAddDepartmentDialogOpen] = React.useState(false);
   const [isAddPermDialogOpen, setIsAddPerDialogOpen] = React.useState(false);
   const [selectedStaff, setSelectedStaff] = React.useState<Staff | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = React.useState(false);
@@ -78,7 +82,7 @@ export default function StaffPage() {
   const filteredStaff = React.useMemo(() => {
     const query = searchQuery.toLowerCase();
     return staff.filter((member) => {
-      const outletName = dummyDepts.find((o) => o.id === member.department)?.name.toLowerCase() || "";
+      const outletName = departments.find((o) => o.id === member.department)?.name.toLowerCase() || "";
       return (
         member.name.toLowerCase().includes(query) ||
         outletName.includes(query)
@@ -94,6 +98,13 @@ export default function StaffPage() {
           <p className="text-muted-foreground">Manage your staff members</p>
         </div>
         <div className="flex gap-4">
+          <Button variant={'outline'} onClick={() => setIsAddDepartmentDialogOpen(true)}>
+            Add Department
+          </Button>
+          <Button variant={'outline'} onClick={() => setIsAddRoleDialogOpen(true)}>
+
+            Add Role
+          </Button>
           <Button onClick={() => setIsAddDialogOpen(true)}>
             <UserPlus className="mr-2 h-4 w-4" />
             Add Staff
@@ -103,7 +114,7 @@ export default function StaffPage() {
             Add Group Permission
           </Button>
 
-          <Link href="/dashboard/advanced-settings">
+          <Link href="/dashboard/staff/advanced-settings">
             <Button variant="outline">
               <Settings2 className="mr-2 h-4 w-4" />
               Advanced Settings
@@ -144,7 +155,7 @@ export default function StaffPage() {
             <CardContent>
               <div className="flex items-center text-sm text-muted-foreground">
                 <Building className="mr-2 h-4 w-4" />
-                {dummyDepts.find((o) => o.id === member.department)?.name || "No outlet assigned"}
+                {departments.find((o) => o.id === member.department)?.name || "No outlet assigned"}
               </div>
             </CardContent>
           </Card>
@@ -155,14 +166,16 @@ export default function StaffPage() {
         isOpen={isAddDialogOpen}
         onOpenChange={setIsAddDialogOpen}
         onAddStaff={handleAddStaff}
-        departments={dummyDepts}
-        roles={dummyRoles}
+        departments={departments}
+        roles={roles}
       />
+      <AddDepartmentDialog isOpen={isAddDepartmentDialogOpen} onOpenChange={setIsAddDepartmentDialogOpen} />
+      <AddStaffRoletDialog isOpen={isAddRoleDialogOpen} onOpenChange={setIsAddRoleDialogOpen} />
 
       <StaffDetails
         roles={dummyRoles}
         staff={selectedStaff}
-        departments={dummyDepts}
+        departments={departments}
         open={isDetailsOpen}
         onOpenChange={setIsDetailsOpen}
         onUpdate={handleUpdateStaff}

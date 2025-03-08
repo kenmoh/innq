@@ -1246,7 +1246,7 @@ export default function Payroll() {
                     </div>
                   </div>
 
-                  <Button className="w-full bg-blue-600" onClick={handleGenerateReport}>
+                  <Button className="w-full" onClick={handleGenerateReport}>
                     <FileText className="mr-2 h-4 w-4" />
                     Generate Report
                   </Button>

@@ -7,9 +7,11 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { getCurrentUser } from "../actions/authActions"
 
 
-const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
+    const user = await getCurrentUser()
     return (
         <SidebarProvider>
             <AppSidebar />
@@ -19,6 +21,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                         <div className="flex items-center gap-2 px-4 ">
                             <SidebarTrigger className="-ml-1 " />
                         </div>
+                        <h1 className="font-bold text-xl">Welcome, {user?.user?.email} </h1>
                         <div className="space-x-5">
                             <ModeToggle />
                             <Logout />
